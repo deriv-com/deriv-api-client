@@ -1,0 +1,17 @@
+{
+    "name": "deriv-api-client",
+    "description": "A lightweight JavaScript Deriv WebSocket API client library.",
+    "version": "1.0.0",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "esbuild": "^0.19.12",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.3.3"
+    }
+}
