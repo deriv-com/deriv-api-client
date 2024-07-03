@@ -11,6 +11,8 @@ A lightweight, zero dependency wrapper around the `WebSockets Web API` and the `
 
 # Getting Started
 
+## Using the Library
+
 You can start by installing the library via the following commands:
 
 ### npm
@@ -38,6 +40,18 @@ To use it in your codebase, simply initialise the `DerivAPICLient` class and inv
 const derivAPI = new DerivAPIClient();
 const response = await derivAPI.send({ name: "get_account_status" });
 console.log(response);
+```
+
+<br />
+
+## Contributing to the Library
+
+### Starting the Development Server
+
+This project comes with a sandbox served with HMR. In it you have a sample code which you can test your changes. To run the sandbox run:
+
+```bash
+npm run dev
 ```
 
 <br />
