@@ -1,21 +1,23 @@
 {
-  "name": "@deriv-com/api-client",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
-  },
-  "devDependencies": {
-    "@deriv/api-types": "^1.0.1073",
-    "@types/node": "^20.14.9",
-    "typescript": "^5.2.2",
-    "vite": "^5.3.1",
-    "vite-plugin-dts": "^3.9.1"
-  },
-  "dependencies": {
-    "@deriv-com/utils": "^0.0.28"
-  }
+    "name": "@deriv-com/api-client",
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "tsc && vite build",
+        "preview": "vite preview",
+        "format": "prettier --write \"**/*.{js,jsx,ts,tsx,css,scss,html}\""
+    },
+    "devDependencies": {
+        "@deriv/api-types": "^1.0.1073",
+        "@types/node": "^20.14.9",
+        "prettier": "^3.3.2",
+        "typescript": "^5.2.2",
+        "vite": "^5.3.1",
+        "vite-plugin-dts": "^3.9.1"
+    },
+    "dependencies": {
+        "@deriv-com/utils": "^0.0.28"
+    }
 }
