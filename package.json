@@ -1,6 +1,5 @@
 {
     "name": "@deriv-com/api-client",
-    "private": true,
     "version": "0.0.1",
     "type": "module",
     "main": "./dist/deriv-api-client.umd.cjs",
