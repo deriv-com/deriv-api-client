@@ -1,13 +1,22 @@
 {
     "name": "@deriv-com/api-client",
+    "private": false,
     "version": "0.0.1",
+    "description": "A lightweight wrapper around Deriv's WebSocket API",
+    "author": "deriv",
+    "homepage": "https://deriv.com",
     "type": "module",
+    "keywords": [
+        "deriv",
+        "api client",
+        "websocket"
+    ],
     "main": "./dist/deriv-api-client.umd.cjs",
     "module": "./dist/deriv-api-client.js",
     "types": "./dist/deriv-api-client.d.ts",
     "exports": {
         ".": {
-            "types": "./dist/deriv-api-hooks.d.ts",
+            "types": "./dist/deriv-api-client.d.ts",
             "import": "./dist/deriv-api-client.js",
             "require": "./dist/deriv-api-client.umd.cjs"
         }
@@ -23,11 +32,11 @@
         "format": "prettier --write \"**/*.{js,jsx,ts,tsx,css,scss,html}\""
     },
     "devDependencies": {
-        "@deriv/api-types": "^1.0.1073",
-        "@types/node": "^20.14.9",
+        "@deriv/api-types": "^1.0.1180",
+        "@types/node": "^20.14.10",
         "prettier": "^3.3.2",
-        "typescript": "^5.2.2",
-        "vite": "^5.3.1",
+        "typescript": "5.5.3",
+        "vite": "^5.3.3",
         "vite-plugin-dts": "^3.9.1"
     },
     "dependencies": {
