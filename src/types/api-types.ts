@@ -231,10 +231,6 @@ import type {
     UpdateContractHistoryResponse,
     UpdateContractRequest,
     UpdateContractResponse,
-    VerifyEmailCellxpertRequest,
-    VerifyEmailCellxpertResponse,
-    VerifyEmailRequest,
-    VerifyEmailResponse,
 } from '@deriv/api-types';
 
 import {
@@ -1468,14 +1464,6 @@ type TSocketEndpoints = {
     unsubscribe_email: {
         request: UnsubscribeEmailRequest;
         response: UnsubscribeEmailResponse;
-    };
-    verify_email_cellxpert: {
-        request: VerifyEmailCellxpertRequest;
-        response: VerifyEmailCellxpertResponse;
-    };
-    verify_email: {
-        request: VerifyEmailRequest;
-        response: VerifyEmailResponse;
     };
     website_config: {
         request: ServerConfigRequest;
