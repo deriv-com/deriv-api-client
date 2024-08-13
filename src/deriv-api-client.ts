@@ -89,7 +89,7 @@ export class DerivAPIClient {
         this.websocket.addEventListener('message', async response => {
             const parsedData = JSON.parse(response.data);
 
-            // If name matches for the calls you asynchronously wait, resolve
+            // If name matches for the calls you asynchronously wait, resolve that call
             if (this.waitForWebSocketCall && parsedData.msg_type === this.waitForWebSocketCall?.name) {
                 const { resolve } = this.waitForWebSocketCall;
                 resolve({});
@@ -128,13 +128,21 @@ export class DerivAPIClient {
         this.keepAlive();
     }
 
+    /**
+     * Sends a request to the WebSocket server.
+     * @template T - The type of the socket endpoint name.
+     * @param {SendFunctionArgs<T>} args - The name of the endpoint and the request payload.
+     * @returns {Promise<TSocketResponseData<T>>} - A promise that resolves with the response data.
+     */
     async send<T extends TSocketEndpointNames>({ name, payload }: SendFunctionArgs<T>) {
         this.req_id = this.req_id + 1;
         const requestPayload = { [name]: 1, ...(payload ?? {}), req_id: this.req_id };
 
+        // Check if there's an existing request with the same ID, and return its promise if found.
         const matchingRequest = this.requestHandler.get(this.req_id.toString());
         if (matchingRequest) return matchingRequest.promise as Promise<TSocketResponseData<T>>;
 
+        // Create a new promise for the request and define resolve and reject handlers.
         const { promise, resolve, reject } = PromiseUtils.createPromise<TSocketResponseData<T>>();
         const newRequestHandler: RequestHandler<T> = {
             name,
@@ -142,9 +150,14 @@ export class DerivAPIClient {
             onError: error => reject(error),
             promise,
         };
+
+        // Store the new request handler in the request handler map.
         this.requestHandler.set(this.req_id.toString(), newRequestHandler as RequestHandler<TSocketEndpointNames>);
 
+        // Wait for the WebSocket connection to open if it hasn't already.
         await this.waitForWebSocketOpen?.promise;
+
+        // Wait for specific pending WebSocket calls to complete if necessary.
         if (this.waitForWebSocketCall?.type === 'request' || this.waitForWebSocketCall?.type === 'all') {
             await this.waitForWebSocketCall.promise;
         }
@@ -160,6 +173,12 @@ export class DerivAPIClient {
         return promise;
     }
 
+    /**
+     * Subscribes to a WebSocket endpoint.
+     * @template T - The type of the socket subscribable endpoint name.
+     * @param {SubscribeFunctionArgs<T>} args - The name of the endpoint, payload, and callback functions.
+     * @returns {Promise<TSocketSubscribeResponseData<T>>} - A promise that resolves with the subscription response data.
+     */
     async subscribe<T extends TSocketSubscribableEndpointNames>({
         name,
         payload,
@@ -214,6 +233,11 @@ export class DerivAPIClient {
         }
     }
 
+    /**
+     * Unsubscribes from a WebSocket endpoint.
+     * @param {UnsubscribeHandlerArgs} args - The subscription ID and hash.
+     * @returns {Promise<void>} - A promise that resolves when the unsubscription is complete.
+     */
     async unsubscribe({ hash, id }: UnsubscribeHandlerArgs) {
         const matchingSubscription = this.subscribeHandler.get(hash);
         if (!matchingSubscription) return;
@@ -230,6 +254,12 @@ export class DerivAPIClient {
         }
     }
 
+    /**
+     * Waits for a specific WebSocket call to complete.
+     * @param {TSocketEndpointNames} name - The name of the endpoint to wait for.
+     * @param {'all' | 'subscribe' | 'request'} type - The type of event to wait for.
+     * @returns {Promise<void>} - A promise that resolves when the event is complete.
+     */
     async waitFor(name: TSocketEndpointNames, type: 'all' | 'subscribe' | 'request') {
         this.waitForWebSocketCall = { ...PromiseUtils.createPromise(), name, type };
     }
@@ -252,28 +282,46 @@ export class DerivAPIClient {
         await Promise.all(subscriptionList);
     }
 
+    /**
+     * Unsubscribes from all active WebSocket subscriptions.
+     * @returns {Promise<void>} - A promise that resolves when all subscriptions are cancelled.
+     */
     async unsubscribeAll() {
         for (const subs of this.subscribeHandler.values()) {
             await this.send({ name: 'forget', payload: { forget: subs.subscription_id } });
         }
     }
 
+    /**
+     * Checks if the WebSocket is in a closed or closing state.
+     * @returns {boolean} - A boolean which indicates if the WebSocket is in a closed or closing state.
+     */
     isSocketClosingOrClosed() {
         return ![2, 3].includes(this.websocket.readyState);
     }
 
+    /**
+     * Disconnects the WebSocket connection if not already.
+     */
     disconnect() {
         if (!this.isSocketClosingOrClosed()) {
             this.websocket.close();
         }
     }
 
+    /**
+     * Clears all pending requests and subscriptions as well as disconnects WebSocket connection.
+     */
     cleanup() {
         this.requestHandler.clear();
         this.subscribeHandler.clear();
         this.disconnect();
     }
 
+    /**
+     * Keeps WebSocket connection alive by sending a ping call every 30 seconds (default).
+     * @param interval
+     */
     keepAlive(interval = 30000) {
         if (this.keepAliveIntervalId) {
             clearInterval(this.keepAliveIntervalId);
