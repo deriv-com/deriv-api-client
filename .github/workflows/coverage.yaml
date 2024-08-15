@@ -1,0 +1,20 @@
+name: Run Test Coverage
+
+on: ['push', 'pull_request']
+
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+            - name: Setup Node.js environment
+              uses: actions/setup-node@b39b52d1213e96004bfcb1c61a8a6fa8ab84f3e8
+              with:
+                  node-version: '22.x'
+            - name: Install dependencies
+              run: npm install
+            - name: Run tests
+              run: npm run test:coverage
+            - name: Coveralls
+              uses: coverallsapp/github-action@3dfc5567390f6fa9267c0ee9c251e4c8c3f18949
