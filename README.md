@@ -1,3 +1,7 @@
+![Coveralls](https://img.shields.io/coverallsCoverage/github/deriv-com/deriv-api-client)
+
+
+
 # Deriv API Client
 
 A lightweight, zero dependency wrapper around the `WebSockets Web API` and the `native Node WebSocket` (Node V22 and above) that is fully typed to Deriv's Backend WebSocket ([Deriv WS API Explorer](https://api.deriv.com/api-explorer)).
