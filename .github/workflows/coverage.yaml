@@ -1,4 +1,4 @@
-name: Test Workflow
+name: Run Test Coverage
 
 on: ['push', 'pull_request']
 
