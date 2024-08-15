@@ -28,7 +28,7 @@
         "dev": "vite",
         "build": "tsc && vite build",
         "test": "vitest",
-        "coverage": "vitest run --coverage",
+        "test:coverage": "vitest run --coverage",
         "report": "vitest --ui",
         "prepare": "rm -rf ./dist && npm run build",
         "preview": "vite preview",
