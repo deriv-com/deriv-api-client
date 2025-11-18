@@ -37,8 +37,8 @@
     "devDependencies": {
         "@deriv/api-types": "^1.0.1583",
         "@types/node": "^22.2.0",
-        "@vitest/coverage-istanbul": "^3.1.2",
-        "@vitest/coverage-v8": "^3.1.2",
+        "@vitest/coverage-istanbul": "^4.0.10",
+        "@vitest/coverage-v8": "^4.0.10",
         "@vitest/ui": "^3.1.2",
         "prettier": "^3.3.3",
         "typescript": "5.5.4",
